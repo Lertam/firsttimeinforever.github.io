@@ -21,9 +21,9 @@ $url = 'https://'.$https_server;
 $result = file_get_contents($url, false, $context, -1, 40000);
 $arr=explode(',',$result);
 $builds=explode(':',$arr[5]);
-echo "Êîëè÷åñòâî ñáîðîê : ".$builds[1].'</br>';
+echo "Builds : ".$builds[1].'</br>';
 $version=explode(":",$arr[6]);
-echo "Âåðñèÿ : ".trim($version[1],'"').'</br>';
+echo "Version : ".trim($version[1],'"').'</br>';
 ?>
 </body>
 </html>
