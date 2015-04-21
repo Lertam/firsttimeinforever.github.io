@@ -28,12 +28,6 @@ array(
 $https_server="ci.appveyor.com/api/projects";
 $context = stream_context_create($opts);
 $url = 'https://'.$https_server;
-$result = file_get_contents($url, false, $context, -1, 40000);
-$arr=explode(',',$result);
-$builds=explode(':',$arr[5]);
-echo "Builds : ".$builds[1].'</br>';
-$version=explode(":",$arr[6]);
-echo "Version : ".trim($version[1],'"').'</br>';
 ?>
 </body>
 
