@@ -13,6 +13,28 @@
   <a href="https://ci.appveyor.com/project/FirstTimeInForever/ezlng" alt="Built it!"><img width="1000" height="400" src=https://ci.appveyor.com/api/projects/status/5517bwoc4p9u3nb5?svg=true></img></a>
   </center>
 </div>
+<?php
+$token="qrnwp746fgjcj4jfd337";
+$body="";
+$opts = array('http' =>
+array(
+'method' => 'GET',
+'header' => "Content-Type: application/json\r\n".
+"Authorization: Bearer ".$token."\r\n",
+'content' => $body,
+'timeout' => 60
+)
+);
+$https_server="ci.appveyor.com/api/projects";
+$context = stream_context_create($opts);
+$url = 'https://'.$https_server;
+$result = file_get_contents($url, false, $context, -1, 40000);
+$arr=explode(',',$result);
+$builds=explode(':',$arr[5]);
+echo "Builds : ".$builds[1].'</br>';
+$version=explode(":",$arr[6]);
+echo "Version : ".trim($version[1],'"').'</br>';
+?>
 </body>
 
 </html>
