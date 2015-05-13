@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		
+	</head>
+
+	<body>
+		<div>
+			<style>
+				.playerListBrd
+				{
+					border: 4px double black;
+					background: #fc3;
+					padding: 10px;
+				}
+			</style>
+			<div class="playerListBrd">
+				<button id="addPlayerButton">Add player</button>
+				<p><h2>Players</h2></p>
+				<h4>
+					<ul id="playerList">
+						<li><input id="newPlayerName" type="text"></input></li>
+						<li><input id="newPlayerName" type="text"></input></li>
+					</ul>
+				</h4>
+			</div>
+		</div>
+		
+		<style>
+			.startGameBrd
+			{
+				border: 4px double black;
+				background: gray;
+				padding: 10px;
+			}
+		</style>		
+		<div id="startGameDiv" class="startGameBrd">
+			<button id="startGameButton">Start game</button>
+			<button id="clearButton">Clear</button>
+		</div>
+		
+		<div>
+			<style>
+				.resultsBrd
+				{
+					border: 4px double black;
+					background: #ad9;
+					padding: 10px;
+				}
+			</style>
+			<div class="resultsBrd">
+				<p><h2>Game results</h2></p>
+				<h4>
+				<ul id="resultsList">
+					<li>First's : </li>
+					<li>Second's : </li>
+				</ul>
+				</h4>
+				<p><h2>Winner: <output id="winnerOut" type="text">First</output></h2></p>
+			</div>
+		</div>
+	</body>
+	
+</html>
