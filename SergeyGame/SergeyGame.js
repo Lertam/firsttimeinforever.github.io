@@ -1,4 +1,4 @@
-function Player(id,name)
+function Player(name)
 {
 	this.name=name;
 	this.numberArray=new Array();
@@ -16,29 +16,61 @@ Player.prototype.getName=function()
 
 Player.prototype.checkForNumber=function(num)
 {
-	return this.numberArray.includes(num);
+	return (this.numberArray.indexOf(num)!=-1);
 };
+
 
 
 function Game()
 {
 	this.players=new Array();
+	this.canBeModified=true;
+	this.startNumbers=new Array();
+	this.targetNumber=-1;
+	
+	this.winnerName=null;
+	
+	this.getRandomInt=function(min,max) 
+	{
+	    return Math.floor(Math.random()*(max-min+1))+min;
+	};
 	//this.numberCount=numberCount;
 }
 
 Game.prototype.addPlayer=function(playerName)
 {
-	this.players.push(new Player(playerName));
+	if(this.canBeModified)
+	{
+		this.players.push(new Player(playerName));
+	}
+	else
+	{
+		alert("You can't modify player list after starting a game!");
+	}
 };
 
 Game.prototype.removePlayer=function(playerName)
 {
-	this.players.splice(this.players.indexOf(playerName),1);
+	if(this.canBeModified)
+	{
+		this.players.splice(this.players.indexOf(playerName),1);
+	}
+	else
+	{
+		alert("You can't modify player list after starting a game!");
+	}
 };
 
 Game.prototype.setNumberCount=function(numberCount)
 {
-	this.numberCount=numberCount;
+	if(this.canBeModified)
+	{
+		this.numberCount=numberCount;
+	}
+	else
+	{
+		alert("You can't change number count after starting a game!");
+	}
 };
 
 Game.prototype.getPlayerCount=function()
@@ -46,12 +78,66 @@ Game.prototype.getPlayerCount=function()
 	return this.players.length;
 };
 
-var game=new Game();
+Game.prototype.giveNumbers=function()
+{
+	this.canBeModified=false;
+	for(var it=0;it<this.numberCount;it++)
+	{
+		this.startNumbers.push(it);
+	}
+	
+	for(var plIdx=0;plIdx<this.players.length;plIdx++)
+	{
+		for(var iter=0;iter<Math.floor(this.numberCount/this.getPlayerCount());iter++)
+		{
+			var myPos=this.getRandomInt(0,this.startNumbers.length-1);
+			//console.log("myPos "+myPos+" arr length "+this.startNumbers.length);
+			this.players[plIdx].addNumber(this.startNumbers[myPos]);
+			console.log("Giving "+this.players[plIdx].getName()+" "+this.startNumbers[myPos]);
+			this.startNumbers.splice(myPos,1);
+		}
+	}
+};
 
-game.addPlayer("Sergey");
-console.log(game.getPlayerCount());
-game.removePlayer("Sergey");
-console.log(game.getPlayerCount());
+Game.prototype.genTargetNumber=function()
+{
+	this.targetNumber=this.getRandomInt(0,this.numberCount-1);
+};
 
-var addPlayerButtonPtr=document.getElementById("addPlayerButton");
-var newPlayerNameTextBox=document.getElementById("newPlayerName");
+Game.prototype.getTargetNumber=function()
+{
+	return this.targetNumber;
+};
+
+Game.prototype.findWinner=function()
+{
+	for(var idx=0;idx<this.getPlayerCount();idx++)
+	{
+		if(this.players[idx].checkForNumber(this.targetNumber))
+		{
+			this.winnerName=this.players[idx].getName();
+		}
+	}
+};
+
+Game.prototype.getWinnerName=function()
+{
+	return this.winnerName;
+};
+
+function makeGame()
+{
+	var game=new Game();
+	game.addPlayer("Sergey");
+	game.addPlayer("Ivan");
+	//console.log(game.getPlayerCount());
+	game.setNumberCount(40);
+	game.giveNumbers();
+	game.genTargetNumber();
+	game.findWinner();
+	console.log("Target number "+game.getTargetNumber());
+	console.log("Winner "+game.getWinnerName());	
+}
+
+makeGame();
+
