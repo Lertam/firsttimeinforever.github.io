@@ -1,5 +1,6 @@
 var targetTextBox=document.getElementById("inputStr");
 targetTextBox.addEventListener("change",function()
 {
-	alert("bang");
+	var targetOutupText=document.getElementById("outputText");
+	targetOutupText.value=targetTextBox.value;
 });
