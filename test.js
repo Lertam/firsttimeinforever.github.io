@@ -1,7 +1,7 @@
-document.title="JavaScript practice";
+document.title="DAMN SON! WHERE'D YOU FIND THIS?!";
 
 var targetDiv=document.getElementById("test_show_div");
-for(var i=0;i<10;i++)
+setInterval(function()
 {
-	document.write("dam son\n");
-}
+	document.write("one more second</br>");
+},1000);
