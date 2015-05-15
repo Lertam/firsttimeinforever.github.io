@@ -99,6 +99,11 @@ Game.prototype.giveNumbers=function()
 	}
 };
 
+Game.prototype.getPlayers=function()
+{
+	return this.players;	
+};
+
 Game.prototype.genTargetNumber=function()
 {
 	this.targetNumber=this.getRandomInt(0,this.numberCount-1);
