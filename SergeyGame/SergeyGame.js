@@ -19,6 +19,10 @@ Player.prototype.checkForNumber=function(num)
 	return (this.numberArray.indexOf(num)!=-1);
 };
 
+Player.prototype.getNumberArray=function()
+{
+	return this.numberArray;
+};
 
 
 function Game()
