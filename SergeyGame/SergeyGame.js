@@ -134,19 +134,3 @@ Game.prototype.getWinnerName=function()
 	return this.winnerName;
 };
 
-function makeGame()
-{
-	var game=new Game();
-	game.addPlayer("Sergey");
-	game.addPlayer("Ivan");
-	//console.log(game.getPlayerCount());
-	game.setNumberCount(40);
-	game.giveNumbers();
-	game.genTargetNumber();
-	game.findWinner();
-	console.log("Target number "+game.getTargetNumber());
-	console.log("Winner "+game.getWinnerName());	
-}
-
-makeGame();
-
