@@ -1,0 +1,21 @@
+.winner{
+	color:red;
+}
+.playerListBrd
+{
+	border: 4px double black;
+	background: #fc3;
+	padding: 10px;
+}
+.startGameBrd
+{
+	border: 4px double black;
+	background: gray;
+	padding: 10px;
+}
+.resultsBrd
+{
+	border: 4px double black;
+	background: #ad9;
+	padding: 10px;
+}
