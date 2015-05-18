@@ -33,7 +33,7 @@ function Game()
 	this.targetNumber=-1;
 	
 	this.winnerName=null;
-	
+	console.log("Game created!");
 	this.getRandomInt=function(min,max) 
 	{
 	    return Math.floor(Math.random()*(max-min+1))+min;
@@ -76,7 +76,6 @@ Game.prototype.setNumberCount=function(numberCount)
 		alert("You can't change number count after starting a game!");
 	}
 };
-
 Game.prototype.getPlayerCount=function()
 {
 	return this.players.length;
