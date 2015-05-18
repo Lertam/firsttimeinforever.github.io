@@ -3,6 +3,7 @@
 	<head>
 		<script src="SergeyGame.js" ></script>
 		<script src="ion.js" ></script>
+		<title>SergeyGame</title>
 		<link rel="stylesheet" href="style.css">
 	</head>
 
@@ -12,13 +13,15 @@
 	{
 		var plNum=ionGetPlayersNum();
 		var players=ionGetPlayers();
+		var numberCount=100;
+		if(plNum<2){alert("You must have at least 2 players!");return 0;}
+		if(numberCount%plNum!=0){alert("You can not play with "+plNum+" players and "+numberCount+" numbers!");return 0;}
 		var game=new Game();
-		for(var i=1;i<=plNum;i++)
+		for(var i=0;i<plNum;i++)
 		{
 			game.addPlayer(players[i]);
 		}
-		//console.log(game.getPlayerCount());
-		game.setNumberCount(40);
+		game.setNumberCount(numberCount);
 		game.giveNumbers();
 		game.genTargetNumber();
 		game.findWinner();
@@ -29,7 +32,6 @@
 		var str="";
 		for(var i=0;i<plNum;i++)
 		{
-			//console.log(winnerName);
 			if(players[i].getName()==winnerName){
 				str+='<tr><td class="winner">'+players[i].getName()+"</div>";
 			}
@@ -37,7 +39,7 @@
 				str+="<tr><td>"+players[i].getName();
 			}
 			var numbers=players[i].getNumberArray();
-			for(var j=0;j<20;j++)
+			for(var j=0;j<(numberCount/plNum);j++)
 			{
 				str+="<td width=40>"+numbers[j];
 			}
@@ -48,8 +50,7 @@
 	</script>
 		<div>
 			<div class="playerListBrd">
-				<button id="addPlayerButton" onclick="addPlayer(document.getElementById('playerName').value)">Add player</button> 
-				<input id='playerName' ></input>
+				<button id="addPlayerButton" onclick="addPlayer()">Add player</button> 
 				<p><h2>Players</h2></p>
 				<h4>
 					<ul id="playerList">
@@ -59,7 +60,7 @@
 		</div>		
 		<div id="startGameDiv" class="startGameBrd">
 			<button id="startGameButton" onclick="makeGame()">Start game</button>
-			<button id="clearButton">Clear</button>
+			<!--<button id="clearButton">Clear</button>-->
 		</div>
 		
 		<div>
