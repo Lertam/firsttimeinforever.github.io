@@ -36,7 +36,7 @@ function savePlayer(id)
 {
 	var elem=document.getElementById("pl_"+id+"_txt");
 	var name=elem.value;
-	if(name.length>0)
+	if(name.length<0)
 	{
 		alert("Player's name must have at least 4 letters!");
 		return 0;
