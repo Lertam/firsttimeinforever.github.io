@@ -14,6 +14,11 @@ Player.prototype.getName=function()
 	return this.name;
 };
 
+Player.prototype.setName=function(name)
+{
+	this.name=name;
+};
+
 Player.prototype.checkForNumber=function(num)
 {
 	return (this.numberArray.indexOf(num)!=-1);
@@ -38,7 +43,7 @@ function Game()
 	{
 	    return Math.floor(Math.random()*(max-min+1))+min;
 	};
-	//this.numberCount=numberCount;
+	this.numberCount=0;
 }
 
 Game.prototype.addPlayer=function(playerName)
@@ -76,6 +81,12 @@ Game.prototype.setNumberCount=function(numberCount)
 		alert("You can't change number count after starting a game!");
 	}
 };
+
+Game.prototype.getNumberCount=function()
+{
+	return this.numberCount;	
+};
+
 Game.prototype.getPlayerCount=function()
 {
 	return this.players.length;
@@ -133,3 +144,7 @@ Game.prototype.getWinnerName=function()
 	return this.winnerName;
 };
 
+Game.prototype.getRestNumbers=function()
+{
+	return this.startNumbers;
+};
