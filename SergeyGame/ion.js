@@ -7,7 +7,7 @@ function addPlayer()
 {
 	if(editMode)
 	{
-		alert("You are alredy editing a playa!");
+		alert("You are already editing a playa!");
 	}
 	else
 	{
@@ -22,7 +22,7 @@ function editPlayer(id)
 {
 	if(editMode)
 	{
-		alert("You are alredy editing a playa!");
+		alert("You are already editing a playa!");
 	}
 	else
 	{	
@@ -38,12 +38,12 @@ function savePlayer(id)
 	var name=elem.value;
 	if(name.length<0)
 	{
-		alert("Player's name must have at least 4 letters!");
+		alert("You can't add playa with no name.");
 		return 0;
 	}
 	else if(!isUniqueName(name))
 	{
-		alert("This players name already axist!");
+		alert("This player already exist!");
 		return 0;
 	}
 	else
