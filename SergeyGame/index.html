@@ -8,49 +8,64 @@
 	</head>
 
 	<body>
-	<script>
-	function makeGame(plNum,players)
-	{
-		var plNum=ionGetPlayersNum();
-		var players=ionGetPlayers();
-		var numberCount=100;
-		if(plNum<2){alert("You must have at least 2 players!");return 0;}
-		//if(numberCount%plNum!=0){alert("You can not play with "+plNum+" players and "+numberCount+" numbers!");return 0;}
-		var game=new Game();
-		for(var i=0;i<plNum;i++)
-		{
-			game.addPlayer(players[i]);
-		}
-		game.setNumberCount(numberCount);
-		game.giveNumbers();
-		game.genTargetNumber();
-		game.findWinner();
-		console.log("Target number "+game.getTargetNumber());
-		console.log("Winner "+game.getWinnerName());
-		players	=game.getPlayers();
-		var winnerName=game.getWinnerName();
-		var str="";
-		for(var i=0;i<plNum;i++)
-		{
-			if(players[i].getName()==winnerName){
-				str+='<tr><td class="winner">'+players[i].getName()+"</div>";
-			}
-			else{
-				str+="<tr><td>"+players[i].getName();
-			}
-			var numbers=players[i].getNumberArray();
-			var num;
-			if(numberCount%plNum!=0)num=numberCount/plNum -1;
-			else num=numberCount/plNum;
-			for(var j=0;j<num;j++)
+		<script>
+			var numberCountGlob=100;
+			function makeGame(plNum,players)
 			{
-				str+="<td width=40>"+numbers[j];
+				var plNum=ionGetPlayersNum();
+				var players=ionGetPlayers();
+				var numberCount=numberCountGlob;
+				if(plNum<1)
+				{
+					alert("You must have at least 1 playa!");
+					return 0;
+				}
+				//if(numberCount%plNum!=0){alert("You can not play with "+plNum+" players and "+numberCount+" numbers!");return 0;}
+				var game=new Game();
+				for(var i=0;i<plNum;i++)
+				{
+					game.addPlayer(players[i]);
+				}
+				game.setNumberCount(numberCount);
+				game.giveNumbers();
+				game.genTargetNumber();
+				game.findWinner();
+				console.log("Target number "+game.getTargetNumber());
+				console.log("Winner "+game.getWinnerName());
+				players=game.getPlayers();
+				var winnerName=game.getWinnerName();
+				var str="";
+				for(var i=0;i<plNum;i++)
+				{
+					if(players[i].getName()==winnerName)
+					{
+						str+='<tr><td class="winner">'+players[i].getName()+"</div>";
+					}
+					else
+					{
+						str+="<tr><td>"+players[i].getName();
+					}
+					var numbers=players[i].getNumberArray();
+					var num;
+					if(numberCount%plNum!=0)num=numberCount/plNum -1;
+					else num=numberCount/plNum;
+					for(var j=0;j<num;j++)
+					{
+						str+="<td width=40>"+numbers[j];
+					}
+				}
+				document.getElementById('resultTable').innerHTML+=str;
+				document.getElementById('winnerBlock').innerHTML+="<h4>Winner: "+winnerName+"</h4>";
 			}
-		}
-		document.getElementById('resultTable').innerHTML+=str;
-		document.getElementById('winnerBlock').innerHTML+="<h4>Winner: "+winnerName+"</h4>";
-	}
-	</script>
+
+			function changeNumberCount()
+			{
+				var targetInp=document.getElementById("numberCountInp");
+				console.log("change number count to "+targetInp.value);
+				numberCountGlob=parseInt(targetInp.value);
+			}
+
+		</script>
 		<div>
 			<div class="playerListBrd">
 				<button id="addPlayerButton" onclick="addPlayer()">Add player</button> 
@@ -62,6 +77,11 @@
 			</div>
 		</div>		
 		<div id="startGameDiv" class="startGameBrd">
+			<div>
+				<br>
+					Number count: <input id="numberCountInp" onchange="changeNumberCount()" type="text" size="8"></input>
+				</br>
+			</div>
 			<button id="startGameButton" onclick="makeGame()">Start game</button>
 			<!--<button id="clearButton">Clear</button>-->
 		</div>

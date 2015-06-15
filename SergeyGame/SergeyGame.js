@@ -107,7 +107,7 @@ Game.prototype.giveNumbers=function()
 			var myPos=this.getRandomInt(0,this.startNumbers.length-1);
 			//console.log("myPos "+myPos+" arr length "+this.startNumbers.length);
 			this.players[plIdx].addNumber(this.startNumbers[myPos]);
-			console.log("Giving "+this.players[plIdx].getName()+" "+this.startNumbers[myPos]);
+			console.log("Giving "+this.players[plIdx].getName()+" "+this.startNumbers[myPos]+" on plIdx="+plIdx+" iter="+iter);
 			this.startNumbers.splice(myPos,1);
 		}
 	}
