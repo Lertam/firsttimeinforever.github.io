@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Pseudo random generator</title>
+	</head>
+
+	<body>
+		<div>
+			<h2>
+				Pseudo random generator
+			</h2>
+			
+			<div>
+				Modulus <input id="modulus_input" size=8 type="text">
+				<br>
+				Seed <input id="seed_input" size=8 type="text">
+				<br>
+				Increment <input id="increment_input" size=8 type="text">
+				<br>
+				Multiplier <input id="multiplier_input" size=8 type="text">
+				<br>
+				<br>
+				<button id="gen_button" onclick="gen_wrapper()">Generate next!</button>
+				<br>
+				<button id="update_button" onclick="updateGenerator()">Update generator</button>
+				<br>
+				<br>
+				<div id="output_div">
+				</div>
+			</div>
+				
+		</div>
+		<script src="pseudo_random.js"></script>
+		<script>
+			var generator = new LinearCongruentialGenerator(document.getElementById("seed_input").value);
+			var target_div = document.getElementById("output_div");
+			
+			function updateGenerator()
+			{
+				generator.seed = document.getElementById("seed_input").value;
+				generator.modulus = document.getElementById("modulus_input").value;
+				generator.increment = document.getElementById("increment_input").value;
+				generator.multiplier = document.getElementById("multiplier_input").value;
+				target_div.innerHTML += "<br><br> seed=" + generator.seed + " mod=" + generator.modulus + " inc=" + 
+					generator.increment + " mul=" + generator.multiplier;
+			}
+			
+			function gen_wrapper()
+			{
+				var new_value = generator.generate();
+				target_div.innerHTML += "<br> " + new_value;
+			}
+			
+		</script>
+	</body>
+</html>
