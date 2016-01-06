@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	</head>
+
+	<body>
+		<center>
+			<div>
+				<input type="text" value="0" id="input_data">
+				<button id="calc_button" onclick="calculate()">Calculate</button>
+				<script>
+					function calculate()
+					{
+						document.getElementById("output_data").innerHTM="";
+						var target=document.getElementById("input_data").value;
+						var count=0;
+						for(var it=0; it<=target; it++)
+						{
+							if(it==it.toString().split('').reverse().join(''))
+							{
+								document.getElementById("output_data").innerHTML+=it+" ";
+								count++;
+							}
+						}
+						document.getElementById("count_field").innerHTML="count: "+count;
+					}
+				</script>
+			</div>
+			<div id="count_field"></div>
+			<div id="output_data">
+			</div>
+		</center>
+	</body>
+</html>
