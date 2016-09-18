@@ -47,12 +47,20 @@
 					}
 					var numbers=players[i].getNumberArray();
 					var num;
-					if(numberCount%plNum!=0)num=numberCount/plNum -1;
-					else num=numberCount/plNum;
+					if(numberCount%plNum!=0)
+					{
+						num=numberCount/plNum-1;
+					}
+					else
+					{
+						num=numberCount/plNum;
+					}
+					str+="<td><div>";
 					for(var j=0;j<num;j++)
 					{
-						str+="<td width=40>"+numbers[j];
+						str+=numbers[j]+" ";
 					}
+					str+="</div></td>";
 				}
 				document.getElementById('resultTable').innerHTML+=str;
 				document.getElementById('winnerBlock').innerHTML+="<h4>Winner: "+winnerName+"</h4>";
@@ -68,14 +76,14 @@
 		</script>
 		<div>
 			<div class="playerListBrd">
-				<button id="addPlayerButton" onclick="addPlayer()">Add player</button> 
+				<button id="addPlayerButton" onclick="addPlayer()">Add player</button>
 				<p><h2>Players</h2></p>
 				<h4>
 					<ul id="playerList">
 					</ul>
 				</h4>
 			</div>
-		</div>		
+		</div>
 		<div id="startGameDiv" class="startGameBrd">
 			<div>
 				<br>
@@ -85,7 +93,7 @@
 			<button id="startGameButton" onclick="makeGame()">Start game</button>
 			<!--<button id="clearButton">Clear</button>-->
 		</div>
-		
+
 		<div>
 			<div class="resultsBrd">
 				<p><h2>Game results</h2></p>
@@ -95,7 +103,7 @@
 						<td width=120>Player's names:</td>
 						<td width='75%' align=center colspan=20>Numbers:</td>
 					</tr>
-					
+
 				</table>
 				<div id="winnerBlock"></div>
 				</h4>
@@ -107,5 +115,5 @@
 			</h2>
 		</div>
 	</body>
-	
+
 </html>
