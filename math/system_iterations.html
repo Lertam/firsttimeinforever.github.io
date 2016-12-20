@@ -1,0 +1,190 @@
+<html>
+    <head>
+        <title>Simple Iterations for linear systems</title>
+    </head>
+    <body>
+        <input type="text" value="3" id="dimensions_input" onchange="reconstructInput(this.value)"></input>
+        <div id="input_table_div"></div>
+        <input type="text" value="0.001" id="precision_input"></input>
+        <input type="button" value="Solve" onclick="solveButton()"></input>
+        <div id="results_div"></div>
+    </body>
+    <script>
+        function reconstructInput(dim)
+        {
+            let target=document.getElementById("input_table_div");
+            target.innerHTML="";
+            let constructField=(row, column)=>
+            {
+                const field="<input type=\"text\" id=\"left_field__"+row+"_"+column+"\"></input>";
+                return field;
+            };
+            for(let it=0; it<dim; it++)
+            {
+                for(let st=0; st<dim; st++)
+                {
+                    target.innerHTML+=constructField(it, st);
+                }
+                target.innerHTML+="<input type=\"text\" id=\"right_field__"+it+"\"></input><br>";
+            }
+        }
+
+        reconstructInput(document.getElementById("dimensions_input").value);
+
+        function SimpleIterations(linearSystem, prec, target)
+        {
+            this.target=target;
+            this.target.innerHTML+="<div id=\"res_constants_div\"></div>";
+            this.target.innerHTML+="<div id=\"res_coefficients_div\"></div>";
+            this.target.innerHTML+="<div id=\"res_result_div\"></div>";
+
+            this.system=linearSystem;
+            this.precision=prec;
+            this.dimensions=this.system.left.length;
+            this.resultVector=[];
+
+            this.constants=[];
+            this.coefficients=new Array(this.dimensions);
+            for(let it=0; it<this.coefficients.length; it++)
+            {
+                this.coefficients[it]=new Array(this.dimensions);
+            }
+
+            this.calcConstants=function()
+            {
+                let target=document.getElementById("res_constants_div");
+                for(let it=0; it<this.dimensions; it++)
+                {
+                    this.constants[it]=this.system.right[it]/this.system.left[it][it];
+                    target.innerHTML+="c["+it+"]="+this.system.right[it]+"/"+
+                        this.system.left[it][it]+"="+this.constants[it]+"<br>";
+                }
+                target.innerHTML+="<br>";
+            };
+
+            this.calcCoefficients=function()
+            {
+                let target=document.getElementById("res_coefficients_div");
+                for(let it=0; it<this.dimensions; it++)
+                {
+                    for(let st=0; st<this.dimensions; st++)
+                    {
+                        if(it!=st)
+                        {
+                            this.coefficients[it][st]=
+                                -(this.system.left[it][st]/this.system.left[it][it]);
+                        }
+                        else
+                        {
+                            this.coefficients[it][st]=0;
+                        }
+                        target.innerHTML+="b["+it+"]["+st+"]=-("+this.system.left[it][st]+"/"+
+                            this.system.left[it][it]+")="+this.coefficients[it][st]+"<br>";
+                    }
+                }
+                target.innerHTML+="<br>";
+            };
+
+            this.calcMaxRight=function()
+            {
+                let currentMax=Math.abs(this.coefficients[0][0]);
+                for(let it=0; it<this.coefficients.length; it++)
+                {
+                    for(let st=0; st<this.coefficients[it].length; st++)
+                    {
+                        if(Math.abs(this.coefficients[it][st])>currentMax)
+                        {
+                            currentMax=Math.abs(this.coefficients[it][st]);
+                        }
+                    }
+                }
+                return currentMax;
+            };
+
+            this.calcActualResult=function()
+            {
+                let current=Array.from(this.constants);
+                let next=new Array(this.dimensions);
+                const beta=this.calcMaxRight();
+                const betaConst=beta/(1-beta);
+                do
+                {
+                    for(let it=0; it<this.dimensions; it++)
+                    {
+                        next[it]=this.constants[it];
+                        for(let st=0; st<this.dimensions; st++)
+                        {
+                            next[it]+=this.coefficients[it][st]*current[st];
+                        }
+                    }
+                    console.log("Current x: "+current);
+                    console.log("Next x: "+next);
+                    let maxDiff=Math.abs(current[0]-next[0]);
+                    for(let it=1; it<this.dimensions; it++)
+                    {
+                        if(maxDiff<Math.abs(current[it]-next[it]))
+                        {
+                            maxDiff=Math.abs(current[it]-next[it]);
+                        }
+                    }
+                    if(betaConst*maxDiff<this.precision)
+                    {
+                        break;
+                    }
+                    current=Array.from(next);
+                }
+                while(true);
+                console.log("Result root: "+next);
+                let target=document.getElementById("res_result_div");
+                target.innerHTML+="["+next.toString()+"]";
+                target.innerHTML+="<br>";
+            };
+
+            this.solve=function()
+            {
+                this.calcCoefficients();
+                this.calcConstants();
+                this.calcActualResult();
+            };
+        }
+
+        function solveButton()
+        {
+            let dimensions=document.getElementById("dimensions_input").value;
+            let precision=document.getElementById("precision_input").value;
+            let system=
+            {
+                left: new Array(dimensions),
+                right: new Array(dimensions)
+            };
+            for(let it=0; it<dimensions; it++)
+            {
+                system.left[it]=new Array(dimensions);
+                for(let st=0; st<dimensions; st++)
+                {
+                    system.left[it][st]=document.getElementById("left_field__"+it+"_"+st).value;
+                }
+                system.right[it]=document.getElementById("right_field__"+it).value;
+            }
+            let solver=new SimpleIterations(system, precision,
+                document.getElementById("results_div"));
+            solver.solve();
+        }
+
+        function testCase()
+        {
+            let system=
+            {
+                left:
+                [
+                    [10, 1, -1],
+                    [1, 10, -1],
+                    [-1, 1, 10]
+                ],
+                right: [11, 10, 10]
+            };
+            let solver=new SimpleIterations(system, 0.001);
+            solver.solve();
+        }
+    </script>
+</html>
