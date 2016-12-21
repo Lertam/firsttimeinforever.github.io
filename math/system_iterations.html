@@ -109,8 +109,7 @@
                 const betaConst=beta/(1-beta);
                 let target=document.getElementById("res_result_div");                do
                 {
-                    target.innerHTML+="["+current.toString()+"]->["+next.toString()+"]";
-                    target.innerHTML+="<br>";                   
+
                     for(let it=0; it<this.dimensions; it++)
                     {
                         next[it]=this.constants[it];
@@ -119,7 +118,8 @@
                             next[it]+=this.coefficients[it][st]*current[st];
                         }
                     }
-                    console.log("Current x: "+current);
+                    target.innerHTML+="["+current.toString()+"]->["+next.toString()+"]";
+                    target.innerHTML+="<br>";                     console.log("Current x: "+current);
                     console.log("Next x: "+next);
                     let maxDiff=Math.abs(current[0]-next[0]);
                     for(let it=1; it<this.dimensions; it++)
