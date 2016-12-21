@@ -107,8 +107,10 @@
                 let next=new Array(this.dimensions);
                 const beta=this.calcMaxRight();
                 const betaConst=beta/(1-beta);
-                do
+                let target=document.getElementById("res_result_div");                do
                 {
+                    target.innerHTML+="["+current.toString()+"]->["+next.toString()+"]";
+                    target.innerHTML+="<br>";                   
                     for(let it=0; it<this.dimensions; it++)
                     {
                         next[it]=this.constants[it];
@@ -135,9 +137,7 @@
                 }
                 while(true);
                 console.log("Result root: "+next);
-                let target=document.getElementById("res_result_div");
-                target.innerHTML+="["+next.toString()+"]";
-                target.innerHTML+="<br>";
+
             };
 
             this.solve=function()
