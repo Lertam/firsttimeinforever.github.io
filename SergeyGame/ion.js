@@ -77,3 +77,12 @@ function isUniqueName(name)
 	}
 	return true;
 }
+
+function setDefaultNumberCount(){
+	document.getElementById("numberCountInp").value=numberCountGlob;
+}
+
+function clearResults(){
+	document.getElementsByTagName('tbody')[0].innerHTML="";
+	roundCounter = 0;
+}

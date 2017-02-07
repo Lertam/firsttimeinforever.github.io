@@ -4,25 +4,27 @@
 		<script src="SergeyGame.js" ></script>
 		<script src="ion.js" ></script>
 		<title>SergeyGame</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<link rel="stylesheet" href="style.css">
 	</head>
 
-	<body>
+	<body onload="setDefaultNumberCount()">
 		<script>
-			var numberCountGlob=100;
+			var numberCountGlob = 100;
+			var roundCounter = 0;
 			function makeGame(plNum,players)
 			{
-				var plNum=ionGetPlayersNum();
-				var players=ionGetPlayers();
-				var numberCount=numberCountGlob;
-				if(plNum<1)
+				var plNum = ionGetPlayersNum();
+				var players = ionGetPlayers();
+				var numberCount = numberCountGlob;
+				if(plNum < 1)
 				{
 					alert("You must have at least 1 playa!");
 					return 0;
 				}
 				//if(numberCount%plNum!=0){alert("You can not play with "+plNum+" players and "+numberCount+" numbers!");return 0;}
-				var game=new Game();
-				for(var i=0;i<plNum;i++)
+				var game = new Game();
+				for(var i = 0; i < plNum; i++)
 				{
 					game.addPlayer(players[i]);
 				}
@@ -30,21 +32,36 @@
 				game.giveNumbers();
 				game.genTargetNumber();
 				game.findWinner();
-				console.log("Target number "+game.getTargetNumber());
-				console.log("Winner "+game.getWinnerName());
-				players=game.getPlayers();
-				var winnerName=game.getWinnerName();
-				var str="";
+				roundCounter++;
+				var targetNumber = game.getTargetNumber();
+				console.log("Target number " + targetNumber);
+				console.log("Winner " + game.getWinnerName());
+				players = game.getPlayers();
+				var winnerName = game.getWinnerName();
+								
+				var str = "";
+				var resultTable = document.getElementsByTagName('tbody')[0];
+				str = "<tr><td class=\"winner\">Round ";
+				str += roundCounter;
+				str += "</td><td class=\"winner\">Target number is ";
+				str += targetNumber;
+				str += "</td></tr>";
+				resultTable.innerHTML += str;
+				str="";
 				for(var i=0;i<plNum;i++)
 				{
-					if(players[i].getName()==winnerName)
-					{
-						str+='<tr><td class="winner">'+players[i].getName()+"</div>";
+					playerName = players[i].getName();
+					
+					str += "<tr>";
+					if(playerName == winnerName) {
+						str += "<td class=\"col-xs-2 winner\">";
 					}
-					else
-					{
-						str+="<tr><td>"+players[i].getName();
+					else {
+						str += "<td class=\"col-xs-2\">";
 					}
+					str += playerName;
+					str += "</td>";
+					
 					var numbers=players[i].getNumberArray();
 					var num;
 					if(numberCount%plNum!=0)
@@ -55,15 +72,26 @@
 					{
 						num=numberCount/plNum;
 					}
-					str+="<td><div>";
+					str += "<td class=\"col-xs-10\">";
 					for(var j=0;j<num;j++)
 					{
-						str+=numbers[j]+" ";
+						if(numbers[j] == targetNumber){
+							str += "<span class=\"winner\">";
+							str += numbers[j];
+							str += "</span> ";
+						} 
+						else {
+							str+=numbers[j]+" ";
+						}
 					}
-					str+="</div></td>";
+					str += "</td></tr>";
+					resultTable.innerHTML += str;
+					str="";					
 				}
-				document.getElementById('resultTable').innerHTML+=str;
-				document.getElementById('winnerBlock').innerHTML+="<h4>Winner: "+winnerName+"</h4>";
+				str = "<tr><td colspan=2 class = \"winner text-center\" >Winner - ";
+				str += winnerName;
+				str += "</td></tr>";
+				resultTable.innerHTML += str;
 			}
 
 			function changeNumberCount()
@@ -74,8 +102,9 @@
 			}
 
 		</script>
-		<div>
-			<div class="playerListBrd">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="playerListBrd col-xs-12">
 				<button id="addPlayerButton" onclick="addPlayer()">Add player</button>
 				<p><h2>Players</h2></p>
 				<h4>
@@ -84,31 +113,35 @@
 				</h4>
 			</div>
 		</div>
-		<div id="startGameDiv" class="startGameBrd">
-			<div>
+		<div id="startGameDiv" class="startGameBrd row">
+			<div class="col-xs-12">
 				<br>
 					Number count: <input id="numberCountInp" onchange="changeNumberCount()" type="text" size="8"></input>
 				</br>
-			</div>
 			<button id="startGameButton" onclick="makeGame()">Start game</button>
+			</div>
 			<!--<button id="clearButton">Clear</button>-->
 		</div>
-
-		<div>
-			<div class="resultsBrd">
+		<div class="resultsBrd row">
 				<p><h2>Game results</h2></p>
 				<h4>
-				<table id='resultTable'>
-					<tr>
-						<td width=120>Player's names:</td>
-						<td width='75%' align=center colspan=20>Numbers:</td>
-					</tr>
-
-				</table>
-				<div id="winnerBlock"></div>
+				<div class="table-responsive">
+					<table class="table table-hover" id="resultTable">
+						<thead>
+							<tr>
+								<td>Player</td>
+								<td>Numbers</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Here will be results of the round -->
+						</tbody>
+					</table>
+				</div>
 				</h4>
-			</div>
+			<button onclick = "clearResults()">Clear results</button>
 		</div>
+	</div>
 		<div>
 			<h2>
 				<a href="https://github.com/Lertam">Konstantin's GitHub</a>
